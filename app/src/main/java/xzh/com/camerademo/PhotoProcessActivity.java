@@ -18,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class PhotoProcessActivity extends Activity implements View.OnClickListener {
@@ -32,6 +33,10 @@ public class PhotoProcessActivity extends Activity implements View.OnClickListen
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.photo_activity);
+		init();
+	}
+
+	private void init() {
 		path = getIntent().getStringExtra(CameraActivity.CAMERA_PATH_VALUE1);
 		initView();
 		initData();
@@ -41,7 +46,6 @@ public class PhotoProcessActivity extends Activity implements View.OnClickListen
 		Bitmap bitmap = null;
 		try {
 			bitmap = getImage(path);
-			//bitmap = loadBitmap(path, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,7 +55,7 @@ public class PhotoProcessActivity extends Activity implements View.OnClickListen
 
 	private void initView() {
 		photoImageView = (ImageView) findViewById(R.id.photo_imageview);
-		actionTextView = (TextView) findViewById(R.id.photo_process_action);
+		actionTextView = (TextView) findViewById(R.id.use_photo);
 	}
 
 	@Override
@@ -161,14 +165,11 @@ public class PhotoProcessActivity extends Activity implements View.OnClickListen
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.iv_back:
-			Intent intent = new Intent();
-			intent.putExtra(CameraActivity.CAMERA_PATH_VALUE2, path);
-			setResult(0, intent);
+		case R.id.retake_camera:
 			finish();
 			break;
 
-		case R.id.photo_process_action:
+		case R.id.use_photo:
 			refreshGallery(path);
 			Intent intentOk = new Intent();
 			intentOk.putExtra(CameraActivity.CAMERA_PATH_VALUE2, path);
